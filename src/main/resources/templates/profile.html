@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>小樱课堂</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/js/jquery-3.4.1.min.js" type="application/javascript"></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+<!--导航栏-->
+<div th:insert="~{navigation :: nav}"></div>
+<!--content-->
+<div class="container main">
+    <!--视频列表-->
+    <div class="row table-bordered">
+        <div class="col-md-12 column video-item" >
+            <!--消息内容-->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h2>最新回复</h2>
+                <hr>
+                <div class="media" th:each="notification : ${paginationS.data}">
+                    <div class="media-body">
+                        <h4 class="media-heading">
+                            <span th:text="${notification.notifierUser.name}"></span>
+                            <span th:text="${notification.typeValue}"></span>
+                            <span>
+                                <a th:href="@{'/notification/'+${notification.id}}">
+                                    <span th:text="${notification.video.videoTitle}"></span>
+                                </a>
+                                <span class="label label-warning" th:if="${notification.status==0}">未读</span>
+                            </span>
+                        </h4>
+                    </div>
+                </div>
+            </div>
+            <!-- 底部分页 -->
+            <nav aria-label="Page navigation">
+                <ul class="pagination pull-right">
+                    <li th:if="${paginationS.showFirstPage}">
+                        <a th:href="@{'/profile'+(page=1)}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li th:if="${paginationS.showPrevious}">
+                        <a th:href="@{'/profile'+(page=${paginationS.currentPage}-1)}" aria-label="Next">
+                            <span aria-hidden="true">&lt;</span>
+                        </a>
+                    </li>
+                    <li th:each="page : ${paginationS.pages}"
+                        th:class="${paginationS.currentPage==page}? 'active' : ''"><a
+                            th:href="@{'/profile'+(page=${page})}" th:text="${page}"></a></li>
+                    <li th:if="${paginationS.showNext}">
+                        <a th:href="@{'/profile'+(page=${paginationS.currentPage}+1)}" aria-label="Next">
+                            <span aria-hidden="true">&gt;</span>
+                        </a>
+                    </li>
+                    <li th:if="${paginationS.showEndPage}">
+                        <a th:href="@{'/profile'+(page=${paginationS.totalPage})}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

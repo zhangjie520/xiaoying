@@ -1,0 +1,1 @@
+ALTER TABLE notification ADD gmt_modified bigint default 0;

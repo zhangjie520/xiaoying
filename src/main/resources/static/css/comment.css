@@ -1,0 +1,46 @@
+.index-content {
+    padding: 20px 20px;
+}
+.comment {
+    margin: 10px 0;
+}
+
+.comments {
+    padding: 5px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+.sub-comments{
+    margin-top: 10px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    padding: 10px;
+}
+.sub-comments-submit{
+    margin-top: 10px;
+}
+.sub-comments .btn{
+    margin: 10px 0;
+}
+.media-object {
+    width: 38px;
+    height: 38px;
+}
+.menu {
+    color: #999999;
+    margin-top: 5px;
+}
+.menu .active {
+    color: #499ef3;
+}
+
+.menu .icon {
+    cursor: pointer;
+    margin-right: 6px;
+    font-size: 15px;
+}
+
+.menu .icon:hover {
+    text-decoration: none;
+    color: #499ef3;
+}

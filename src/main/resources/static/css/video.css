@@ -1,0 +1,16 @@
+.video{
+    width: 100%;
+}
+.icon{
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 15px;
+}
+.icon:hover {
+    text-decoration: none;
+    color: #499ef3;
+}
+.img-object {
+    width: 20px;
+    height: 25px;
+}

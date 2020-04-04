@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>小樱课堂</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/js/jquery-3.4.1.min.js" type="application/javascript"></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/videoUpload.css">
+    <script src="/js/videoUpload.js"></script>
+</head>
+<body>
+<!--导航栏-->
+<div th:insert="~{navigation :: nav}"></div>
+<!--content-->
+<div class="container main">
+    <div class="row">
+        <!--<span>-->
+            <!--<input style="width: 75%; height: 100%;display: block" type="file" name="myfile" onchange="uploadVideo(this)"/>-->
+        <!--</span>-->
+        <div id="content" class="form-horizontal" >
+            <!--视频标题-->
+            <div class="form-group _p">
+                <label for="title" class="col-sm-2 control-label">视频标题</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="title" name="title" placeholder="请输入视频名称">
+                </div>
+            </div>
+            <!--上传标签-->
+            <div class="form-group _p">
+                <label for="video_tag" class="col-sm-2 control-label">上传标签</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="video_tag" name="video_tag" placeholder="请输入视频标签,以逗号隔开。如sping,java">
+                </div>
+            </div>
+
+            <!--视频简介-->
+            <div class="form-group _p">
+                <label for="video_bio" class="col-sm-2 control-label">视频简介</label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" name="video_bio" id="video_bio" rows="3" cols="4"></textarea>
+                </div>
+            </div>
+
+            <!--上传封面-->
+            <div class="form-group _p">
+                <label for="video_cover" class="col-sm-2 control-label">选择封面</label>
+                <div class="col-sm-10">
+                    <a class="list" href="javascript:;">
+                        <input class="video_cover" id="video_cover" type="file" onchange="UploadCover(this);" /><span>选择封面</span>
+                    </a>
+                    <span id="coverName"></span>
+                    <!--上传图片url-->
+                    <input name="video_cover_url" id="video_cover_url" type="hidden" />
+                </div>
+            </div>
+
+            <!--上传视频-->
+            <div class="form-group _p">
+                <label for="file" class="col-sm-2 control-label">选择视频</label>
+                <div class="col-sm-10">
+                    <a class="list" href="javascript:;">
+                        <input id="file" type="file" name="file" onchange="UploadVideo();" /><span>选择视频</span>
+                    </a>
+                    <!--上传速度显示-->
+                    <span id="time"></span>
+                    <span class="el-progress-bar__inner" style="width: 0%;"></span>
+                    <span class="el-progress__text" style="font-size: 14.4px;"></span>
+                </div>
+            </div>
+            <!--显示消失-->
+            <div class="form-group _p">
+                <ul class="el-upload-list el-upload-list--text" style="display:  none;">
+                    <li tabindex="0" class="el-upload-list__item is-success" >
+                        <a class="el-upload-list__item-name">
+                            <i class="el-icon-document"></i><span id="videoName">food.jpeg</span>
+                        </a>
+                        <label class="el-upload-list__item-status-label" >
+                            <i class="el-icon-upload-success el-icon-circle-check" ></i>
+                        </label>
+                        <i class="el-icon-close" onclick="del();"></i>
+                        <i class="el-icon-close-tip"></i>
+                    </li>
+                </ul>
+            </div>
+            <!--上传视频按钮-->
+            <div class="form-group _p">
+                <label for="file" class="col-sm-2 control-label">上传视频</label>
+                <div class="col-sm-10">
+                    <button class="btn btn-primary" type="button" onclick="sub();">上传</button>
+                </div>
+            </div>
+            <!--预览框-->
+            <div class="preview">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+</body>
+</html>

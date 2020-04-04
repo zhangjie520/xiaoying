@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>小樱课堂</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/js/jquery-3.4.1.min.js" type="application/javascript"></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<script>
+    window.onload=function (ev) {
+        // debugger;
+        var closable=window.localStorage.getItem("closable");
+        if (closable=="true"){
+            window.close();
+            window.localStorage.removeItem("closable");
+        }
+    }
+</script>
+<body>
+<!--导航栏-->
+<div th:insert="~{navigation :: nav}"></div>
+<!--content-->
+<div class="container main">
+    <!--视频列表-->
+    <div class="row table-bordered">
+        <div class="col-md-3 column video-item" th:each="video : ${paginationS.data}" >
+            <a th:href="@{'/video/'+${video.videoId}}">
+                <p>
+                    <img th:src="@{'/'+${video.videoCover}}" alt="">
+                </p>
+            </a>
+            <p>
+                <span th:text="${video.videoTitle}"></span>
+            </p>
+        </div>
+    </div>
+    <!-- 底部分页 -->
+    <div class="row">
+        <nav aria-label="Page navigation" class="pull-right">
+            <ul class="pagination">
+                <li  th:if="${paginationS.showFirstPage}">
+                    <a th:href="@{/(page=1,search=${search},tag=${tag})}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li  th:if="${paginationS.showPrevious}">
+                    <a th:href="@{/(page=${paginationS.currentPage}-1,search=${search},tag=${tag})}" aria-label="Next">
+                        <span aria-hidden="true">&lt;</span>
+                    </a>
+                </li>
+                <li th:each="page : ${paginationS.pages}" th:class="${paginationS.currentPage==page}? 'active' : ''"><a th:href="@{/(page=${page},search=${search},tag=${tag})}" th:text="${page}"></a></li>
+                <li  th:if="${paginationS.showNext}">
+                    <a th:href="@{/(page=${paginationS.currentPage}+1,search=${search},tag=${tag})}" aria-label="Next">
+                        <span aria-hidden="true">&gt;</span>
+                    </a>
+                </li>
+                <li  th:if="${paginationS.showEndPage}">
+                    <a th:href="@{/(page=${paginationS.totalPage},search=${search},tag=${tag})}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+</body>
+</html>

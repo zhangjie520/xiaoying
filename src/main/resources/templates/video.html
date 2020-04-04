@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>小樱课堂</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/js/jquery-3.4.1.min.js" type="application/javascript"></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/video.css">
+    <script src="/js/comment.js"></script>
+    <script src="/js/moment.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="/css/comment.css">
+</head>
+<body>
+<!--导航栏-->
+<div th:insert="~{navigation :: nav}"></div>
+<!--content-->
+<div class="container main">
+    <div class="row">
+        <!--left content-->
+        <div class="col-md-9" >
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div th:text="${video.videoTitle}"></div>
+                    <div>
+                        <div class="media">
+                            <div class="media-left media-middle">
+                                <span>
+                                    <img class="img-object img-circle" th:src="${video.user.avatarUrl}" alt="...">
+                                </span>
+                            </div>
+                            <div class="media-body">
+                                <h5><span th:text="${video.user.name}"></span></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <video class="video" controls="controls">
+                        <source th:src="@{'/'+${video.videoUrl}}" type="video/mp4" />
+                    </video>
+                    <span th:text="${video.videoBio}"></span>
+                </div>
+                <div class="panel-footer index-content">
+                    <div th:data-id="${video.id}" onclick="likeVideo(this)">
+                        <span class="glyphicon glyphicon-thumbs-up icon"></span>
+                        <span th:text="${video.likeCount}" id="like_video_count"></span>
+                    </div>
+                    <!--回复列表-->
+                    <h4><span th:text="${video.commentCount}"></span>个回复</h4>
+                    <hr class="comment-sp">
+                    <div th:each="comment : ${comments}" class="comments">
+
+                        <div class="media">
+                            <div class="media-left ">
+                                <span>
+                                    <img class="media-object img-rounded img-size" th:src="${comment.user.avatarUrl}" alt="...">
+                                </span>
+                            </div>
+                            <div class="media-body" th:id="'comment-body-'+${comment.id}">
+                                <h5><span th:text="${comment.user.name}"></span></h5>
+                                <div th:text="${comment.content}"></div>
+                                <div class="menu">
+                                    <span th:data-id="${comment.id}" onclick="likeComment(this)">
+                                        <span class="glyphicon glyphicon-thumbs-up icon"></span>
+                                        <span th:text="${comment.likeCount}" th:id="'like_comment_count_'+${comment.id}"></span>
+                                    </span>
+
+                                    <span data-toggle="collapse"
+                                          th:data-target="'#comment-'+${comment.id}" th:data-id="${comment.id}"
+                                          onclick="collapseComments(this)">
+                                        <span class="glyphicon glyphicon-comment icon"></span>
+                                        <span th:text="${comment.commentCount}"></span>
+                                    </span>
+                                    <span class="pull-right" th:text="${#dates.format(comment.gmtCreate,'yyyy-MM-dd')}"></span>
+                                </div>
+                                <!--二级评论-->
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 collapse sub-comments"
+                                     th:id="'comment-'+${comment.id}">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 sub-comments-submit">
+                                        <input type="text" class="form-control" placeholder="评论一下···"
+                                               th:id="'input-'+${comment.id}">
+                                        <button type="button" class="btn btn-success pull-right" th:data-id="${comment.id}"
+                                                onclick="comment(this)">评论
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--回复框-->
+                    <div id="comment-section">
+
+                        <div class="media">
+                            <div class="media-left media-middle">
+                                <span>
+                                    <img class="media-object" th:src="${session.user!=null?session.user.avatarUrl:'/images/default-avatar.png'}" alt="...">
+                                </span>
+                            </div>
+                            <div class="media-body">
+                                <h5><span th:text="${session.user!=null?session.user.name:'匿名用户'}"></span></h5>
+                            </div>
+                        </div>
+                        <input type="hidden" id="video-id" th:value="${video.id}">
+                        <textarea class="form-control comment" rows="3" id="comment-content"></textarea>
+                        <button type="submit" class="btn btn-success btn-publish" onclick="post()">回复</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--right content-->
+        <div class="col-md-3" >
+            <h2>相关推荐</h2>
+            <div class="row">
+                <div class="col-md-12 video-item" th:each="video : ${relatedVideos}">
+                    <a th:href="@{'/video/'+${video.videoId}}">
+                        <p>
+                            <img th:src="@{'/'+${video.videoCover}}" alt="">
+                        </p>
+                    </a>
+                    <p>
+                        <span th:text="${video.videoBio}"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

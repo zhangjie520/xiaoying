@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top" th:fragment="nav">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <!--<span class="sr-only">菜单</span>-->
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">小樱课堂</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li th:classappend="${tag=='recommend'}?'active':''"><a href="/?tag=recommend">推荐</a></li>
+                <li th:classappend="${tag=='rank'}?'active':''"><a href="/?tag=rank">排行</a></li>
+                <li th:if="${session.user!=null && session.user.name=='admin'}" th:classappend="${tag=='check'}?'active':''"><a href="/?tag=check">审核</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right" th:if="${session.user == null}">
+                <li><a href="/login">登录</a></li>
+                <li><a href="/register">注册</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right" th:if="${session.user != null}">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">
+                        <span th:text="${session.user.name}"></span>
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/profile">我的信息<span class="badge" th:text="${session.unreadCount}"></span></a></li>
+                        <li><a href="/videoUpload">上传视频</a></li>
+                        <li><a href="/?tag=myVideo">我的视频</a></li>
+                        <li><a href="/logout">退出登录</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <form class="navbar-form navbar-right" method="get" >
+                <input type="text" name="search" class="form-control" placeholder="Search...">
+                <!--<a href="/register">注册</a>-->
+                <button type="submit" class="btn btn-default">搜索</button>
+            </form>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+
+</body>
+
+</html>
