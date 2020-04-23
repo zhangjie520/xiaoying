@@ -4,6 +4,7 @@ import com.example.xiaoying.dto.PaginationDTO;
 import com.example.xiaoying.exception.CustomizeErrorCode;
 import com.example.xiaoying.exception.CustomizeException;
 import com.example.xiaoying.model.User;
+import com.example.xiaoying.service.NoteService;
 import com.example.xiaoying.service.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,8 @@ import javax.servlet.http.HttpServletRequest;
 public class IndexController {
     @Autowired
     private VideoService videoService;
+    @Autowired
+    private NoteService noteService;
     @GetMapping("/")
     public String index(HttpServletRequest request, Model model,
                         @RequestParam(value = "page", defaultValue = "1") Integer pageIndex,
@@ -57,6 +60,15 @@ public class IndexController {
             model.addAttribute("paginationS", paginationDTOS);
             model.addAttribute("tag",tag);
             return "index";
+        }else if("my_note".equals(tag)){
+            User user = (User) request.getSession().getAttribute("user");
+            if (user==null){
+                throw new CustomizeException(CustomizeErrorCode.NO_LOGIN);
+            }
+            PaginationDTO paginationDTOS = noteService.queryMyNotes(tag,pageIndex,size,user);
+            model.addAttribute("paginationS", paginationDTOS);
+            model.addAttribute("tag",tag);
+            return "notes";
         }
         PaginationDTO paginationDTOS = videoService.list(search, tag, pageIndex, size);
         model.addAttribute("paginationS", paginationDTOS);

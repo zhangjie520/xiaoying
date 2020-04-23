@@ -9,7 +9,7 @@ function post() {
 }
 function comment2taget(parentId, content, type) {
     if (!content) {
-        alert("内容不s能为空~~");
+        alert("内容不能为空~~");
         return;
     }
     $.ajax({

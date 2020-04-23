@@ -49,7 +49,7 @@
                         <span th:text="${video.likeCount}" id="like_video_count"></span>
                     </div>
                     <!--回复列表-->
-                    <h4><span th:text="${video.commentCount}"></span>个回复</h4>
+                    <h4><span th:text="${video.commentCount}"></span>个回复 <span class="pull-right"><a th:if="${session.user!=null}" th:href="@{'/video/record_model/'+${video.videoId}}">笔记模式</a></span></h4>
                     <hr class="comment-sp">
                     <div th:each="comment : ${comments}" class="comments">
 

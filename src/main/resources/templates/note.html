@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>小樱课堂</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/js/jquery-3.4.1.min.js" type="application/javascript"></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/notes.css">
+    <head th:insert="~{import::markdown}"></head>
+    <link rel="stylesheet" href="/css/note.css">
+</head>
+<script type="text/javascript">
+    $(function() {
+        var testView = editormd.markdownToHTML("note-view", {
+            // markdown : "[TOC]\n### Hello world!\n## Heading 2", // Also, you can dynamic set Markdown text
+            // htmlDecode : true,  // Enable / disable HTML tag encode.
+            // htmlDecode : "style,script,iframe",  // Note: If enabled, you should filter some dangerous HTML tags for website security.
+        });
+    });
+</script>
+<body>
+<!--导航栏-->
+<div th:insert="~{navigation :: nav}"></div>
+<!--content-->
+<div class="container main">
+    <!--笔记正文-->
+    <div class="note-main table-bordered">
+        <div class="note-title">
+            <h4 >
+                <span>
+                    标题：<a th:href="'/video/record_model/'+${note.videoId}"><span  th:text="${note.title}"></span></a>
+                </span>
+                <span class="text-desc pull-right">
+                    写于<span th:text="${#dates.format(note.gmtCreate,'dd MMM yyyy')}"></span> •
+                    修改于<span th:text="${#dates.format(note.gmtCreate,'dd MMM yyyy')}"></span>
+                </span>
+            </h4>
+        </div>
+        <hr>
+        <div>
+            <div id="note-view" >
+                <textarea style="display:none;" th:text="${note.content}"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

@@ -6,11 +6,14 @@ import com.example.xiaoying.dto.VideoDTO;
 import com.example.xiaoying.enums.CommentTypeEnum;
 import com.example.xiaoying.enums.VideoStatusEnum;
 import com.example.xiaoying.exception.CustomizeErrorCode;
+import com.example.xiaoying.exception.CustomizeException;
+import com.example.xiaoying.model.Note;
 import com.example.xiaoying.model.User;
 import com.example.xiaoying.model.Video;
 import com.example.xiaoying.provider.FileProvider;
 import com.example.xiaoying.provider.UUIdProvider;
 import com.example.xiaoying.service.CommentService;
+import com.example.xiaoying.service.NoteService;
 import com.example.xiaoying.service.VideoService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +33,13 @@ import java.util.Map;
  * @Version: 1.0
  */
 @Controller
-public class videoController {
+public class VideoController {
     @Autowired
     private VideoService videoService;
     @Autowired
     private CommentService commentService;
+    @Autowired
+    private NoteService noteService;
 
     @GetMapping("videoUpload")
     public String videoUpload(){
@@ -117,5 +122,20 @@ public class videoController {
     public ResultDTO likeVideo(@PathVariable("id") Long id){
         videoService.incLikeCount(id);
         return ResultDTO.okOf();
+    }
+    @GetMapping("/video/record_model/{videoId}")
+    public String videoRecord(@PathVariable("videoId") String videoId,Model model,
+                              HttpServletRequest request){
+        VideoDTO videoDTO=videoService.queryByVideoId(videoId);
+        User user=(User)request.getSession().getAttribute("user");
+        if (user==null){
+            throw new CustomizeException(CustomizeErrorCode.NO_LOGIN);
+        }
+        Note note = noteService.queryNoteByVideoIdAndUser(videoId, user);
+        if (note!=null){
+            model.addAttribute("note",note);
+        }
+        model.addAttribute("video",videoDTO);
+        return "videoRecord";
     }
 }

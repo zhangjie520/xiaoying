@@ -49,12 +49,20 @@ var xhr;//异步请求对象
 var ot; //时间
 var oloaded;//大小
 //上传文件方法
-function UploadVideo() {
+function UploadVideo(e) {
     var fileObj = document.getElementById("file").files[0]; // js 获取文件对象
+
+    //验证视频格式
+    if (!verificationPicType(e,['mp4'])){
+        alert("视频格式格式应为MP4");
+        return;
+    }
     if(fileObj.name){
         $(".el-upload-list").css("display","block");
         $(".el-upload-list li").css("border","1px solid #20a0ff");
         $("#videoName").text(fileObj.name);
+        //消除提示
+        $("#videoUploadInfo").html("");
     }else{
         alert("请选择文件");
     }
@@ -71,6 +79,11 @@ function sub(){
         alert("请上传视频文件");
         return false;
     };
+    //验证视频格式
+    if (verificationPicType(this,['mp4'])){
+        alert("视频格式格式应为MP4");
+        return;
+    }
     var title = $.trim($("#title").val());
     if(title==''){
         alert("请填写视频标题");
@@ -166,21 +179,23 @@ function uploadFailed(evt) {
 }
 
 //上传封面
-function UploadCover(video) {
-    var fileObj = video.files[0]; // 获取文件对象
+function UploadCover(cover) {
+    var fileObj = cover.files[0]; // 获取文件对象
 
     if (fileObj != undefined) {
+
+
+
+        //验证图片
+        if (!verifyImageInfo(cover,['jpg','png'],0,{'width':0,'height':0})){
+            alert("图片格式应为jpg、png");
+            return;
+        }
 
         if (fileObj.name) {
             $("#coverName").text(fileObj.name);
         } else {
             alert("请选择文件");
-        }
-
-        //验证图片
-        if (verifyImageInfo(this,['jpg','png'],0,{'width':0,'height':0})){
-            alert("图片格式应为jpg、png");
-            return;
         }
 
         var form = new FormData(); // FormData 对象

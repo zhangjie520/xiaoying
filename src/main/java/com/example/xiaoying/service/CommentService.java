@@ -73,7 +73,7 @@ public class CommentService {
     }
 
     /**
-     * 在回复问题和评论时写入一条通知
+     * 在回复视频和评论时写入一条通知
      * @param comment
      * @param receiver
      * @param type

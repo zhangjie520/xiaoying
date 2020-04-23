@@ -51,7 +51,7 @@
                     <a class="list" href="javascript:;">
                         <input class="video_cover" id="video_cover" type="file" onchange="UploadCover(this);" /><span>选择封面</span>
                     </a>
-                    <span id="coverName"></span>
+                    <span id="coverName">请上传jpg、png的图片</span>
                     <!--上传图片url-->
                     <input name="video_cover_url" id="video_cover_url" type="hidden" />
                 </div>
@@ -62,8 +62,9 @@
                 <label for="file" class="col-sm-2 control-label">选择视频</label>
                 <div class="col-sm-10">
                     <a class="list" href="javascript:;">
-                        <input id="file" type="file" name="file" onchange="UploadVideo();" /><span>选择视频</span>
+                        <input id="file" type="file" name="file" onchange="UploadVideo(this);" /><span>选择视频</span>
                     </a>
+                    <span id="videoUploadInfo">请上传mp4的视频</span>
                     <!--上传速度显示-->
                     <span id="time"></span>
                     <span class="el-progress-bar__inner" style="width: 0%;"></span>

@@ -76,6 +76,12 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.59</version>
         </dependency>
+        <!--添加ucloud对象存储服务-->
+        <dependency>
+            <groupId>cn.ucloud.ufile</groupId>
+            <artifactId>ufile-client-java</artifactId>
+            <version>2.4.2</version>
+        </dependency>
     </dependencies>
 
     <build>

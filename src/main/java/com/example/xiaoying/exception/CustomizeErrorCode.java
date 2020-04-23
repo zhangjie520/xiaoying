@@ -22,6 +22,8 @@ public enum CustomizeErrorCode implements ICustomizeErrorCode {
     VIDEO_COVER_IS_EMPTY(2017,"视频封面不能为空"),
     NAME_IS_TOO_LONG(2018,"视频名字太长了"),
     REFUSE_ENTRY(2019,"该功能拒绝您的请求"),
+    NOTE_CONTENT_IS_EMPTY(2020,"笔记内容不能为空"),
+    NOTE_IS_EMPTY(2021,"笔记不见了"),
     ;
     private String message;
     private Integer code;

@@ -37,6 +37,9 @@
         <table tableName="video" domainObjectName="Video" ></table>
         <table tableName="comment" domainObjectName="Comment" ></table>
         <table tableName="notification" domainObjectName="Notification" ></table>
+        <table tableName="note" domainObjectName="Note" >
+            <columnOverride column="content" jdbcType="VARCHAR" ></columnOverride>
+        </table>
 
     </context>
 </generatorConfiguration>

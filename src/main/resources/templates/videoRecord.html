@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>小樱课堂</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/js/jquery-3.4.1.min.js" type="application/javascript"></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/video.css">
+    <script src="/js/comment.js"></script>
+    <script src="/js/moment.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="/css/comment.css">
+
+    <head th:insert="~{import::markdown}"></head>
+
+    <script type="text/javascript">
+        $(function() {
+            var editor = editormd("recordContent-editor", {
+                width  : "100%",
+                height : 470,
+                path   : "/js/lib/",
+                delay  : 0,
+                watch  : false,
+                placeholder: " 请输入笔记内容，可插入截屏图片",
+                imageUpload    : true,
+                imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                imageUploadURL : "/file/upload",
+            });
+        });
+    </script>
+    <script src="/js/videoRecord.js"></script>
+</head>
+<body>
+<!--导航栏-->
+<div th:insert="~{navigation :: nav}"></div>
+<!--content-->
+<div class="container main">
+    <div class="row">
+        <!--left content-->
+        <div class="col-md-6" >
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div th:text="${video.videoTitle}"></div>
+                    <div>
+                        <div class="media">
+                            <div class="media-left media-middle">
+                                <span>
+                                    <img class="img-object img-circle" th:src="${video.user.avatarUrl}" alt="...">
+                                </span>
+                            </div>
+                            <div class="media-body">
+                                <h5><span th:text="${video.user.name}"></span></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <video class="video" controls="controls">
+                        <source th:src="@{'/'+${video.videoUrl}}" type="video/mp4" />
+                    </video>
+                    <span th:text="${video.videoBio}"></span>
+                </div>
+                <div class="panel-footer index-content">
+                    <div th:data-id="${video.id}" onclick="likeVideo(this)">
+                        <span class="glyphicon glyphicon-thumbs-up icon"></span>
+                        <span th:text="${video.likeCount}" id="like_video_count"></span>
+                        <span class="pull-right"><a th:href="@{'/video/'+${video.videoId}}">浏览模式</a></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--right content-->
+        <div class="col-md-6" >
+            <div class="row">
+                <form action="/record" method="post">
+                    <div class="form-group">
+                        <input type="hidden" th:value="${video.videoId}" name="videoId" id="videoId">
+                    </div>
+                    <div id="recordContent-editor">
+                        <textarea th:text="${note!=null?note.content:''}" name="recordContent" id="recordContent" cols="30" rows="10" style="display: none;"></textarea>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <button class="btn btn-primary pull-right" onclick="saveNote()">保存笔记</button>
+    </div>
+
+</div>
+
+
+</body>
+</html>
